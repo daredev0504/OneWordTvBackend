@@ -11,7 +11,6 @@ using Microsoft.OpenApi.Models;
 using OneWordTvBackend.Data;
 using OneWordTvBackend.Repository;
 using OneWordTvBackend.Service;
-using WalletPlusIncAPI.Data.DataAccess.Interfaces;
 
 namespace OneWordTvBackend.Extensions
 {

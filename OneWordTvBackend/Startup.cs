@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +39,10 @@ namespace OneWordTvBackend
                     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
             services.ConfigureDbContextForPostgresql(Configuration);
+            services.ConfigureOneTvProgramRepository();
+            services.ConfigureOneTvProgramService();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

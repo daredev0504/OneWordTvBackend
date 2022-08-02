@@ -9,7 +9,7 @@ namespace OneWordTvBackend.Models
 {
     public class OneWordTvProgram : BaseEntity
     {
-        public DateTime Hour { get; set; }
+        public string Hour { get; set; }
         public string Title { get; set; }
         public DayConstants Day { get; set; }
     }

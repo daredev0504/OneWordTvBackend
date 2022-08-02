@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OneWordTvBackend.Models.Dto;
 using OneWordTvBackend.Service;
 using System;
 using System.Collections.Generic;
@@ -16,23 +17,41 @@ namespace OneWordTvBackend.Controllers
             _oneWordTvService = oneWordService;
         }
 
-        // GET: ProgramsController/Create
-        public IActionResult Create()
+        [HttpPost("CreateProgram")]
+        public async Task<IActionResult> CreateOneTvProgram(OneWordProgramTvCreateDTO model)
         {
-            return Ok();
+            var resp = await _oneWordTvService.AddOneWordTvProgram(model);
+            return Ok(resp);
         }
 
-        // GET: ProgramsController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPost("EditProgram")]
+        public async Task<IActionResult> UpdateProgram(OneWordProgramTvUpdateDTO model)
         {
-            return Ok();
+            var resp = await _oneWordTvService.UpdateOneWordTvProgram(model);
+            return Ok(resp);
         }
 
 
-        // GET: ProgramsController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet("GetAllPrograms")]
+        public IActionResult GetAllOneTvPrograms()
         {
-            return Ok();
+            var resp = _oneWordTvService.GetAllOneWordTvPrograms();
+            return Ok(resp);
+        }
+
+
+        [HttpGet("GetAllProgramsByDay")]
+        public async Task<IActionResult> GetAllOneTvProgramsByDay(string model)
+        {
+            var resp = await _oneWordTvService.GetMyOneWordTvProgramsByDay(model);
+            return Ok(resp);
+        }
+
+        [HttpDelete("DeleteProgram")]
+        public async Task<IActionResult> DeleteOneTvProgram(string id)
+        {
+            var resp = await _oneWordTvService.DeleteProgram(id);
+            return Ok(resp);
         }
     }
 }

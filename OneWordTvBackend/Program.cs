@@ -13,6 +13,8 @@ namespace OneWordTvBackend
     {
         public static void Main(string[] args)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
             CreateHostBuilder(args).Build().Run();
         }
 

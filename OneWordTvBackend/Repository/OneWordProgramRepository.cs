@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using OneWordTvBackend.Data;
+using OneWordTvBackend.Helpers;
 using OneWordTvBackend.Models;
-using WalletPlusIncAPI.Data.DataAccess.Interfaces;
 
 namespace OneWordTvBackend.Repository
 {
@@ -25,9 +25,10 @@ namespace OneWordTvBackend.Repository
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<List<OneWordTvProgram>> GetMyOneWordTvProgramsByDay(string day)
+        public async Task<List<OneWordTvProgram>> GetMyOneWordTvProgramsByDay(string day)
         {
-            throw new NotImplementedException();
+            var result = _context.OneWordTvPrograms.Where(x => x.Day == (DayConstants)Enum.Parse(typeof(DayConstants), day, true));
+            return await result.ToListAsync();
         }
     }
 }

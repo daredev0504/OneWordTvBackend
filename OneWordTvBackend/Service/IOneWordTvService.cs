@@ -11,10 +11,10 @@ namespace OneWordTvBackend.Service
 {
     public interface IOneWordTvService
     {
-        Task<ResponseMessage<List<OneWordProgramTvUpdateDTO>>> GetMyOneWordTvProgramsByDay(string day);
-        List<OneWordProgramTvUpdateDTO> GetAllOneWordTvPrograms();
+        //Task<ResponseMessage<List<OneWordProgramTvUpdateDTO>>> GetMyOneWordTvProgramsByDay(string day);
+        Task<ResponseMessage<List<OneWordProgramTvUpdateDTO>>> GetAllOneWordTvPrograms();
         Task<ResponseMessage<string>> AddOneWordTvProgram(OneWordProgramTvCreateDTO model);
         Task<ResponseMessage<string>> UpdateOneWordTvProgram(OneWordProgramTvUpdateDTO model);
-        Task<ResponseMessage<string>> DeleteProgram(string id);
+        //Task<ResponseMessage<string>> DeleteProgram(string id);
     }
 }

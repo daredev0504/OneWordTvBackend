@@ -6,13 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OneWordTvBackend.Repository.Interface;
 
 namespace OneWordTvBackend.Controllers
 {
     public class OneTvProgramController : BaseApiController
     {
         private readonly IOneWordTvService _oneWordTvService;
-        public OneTvProgramController(IOneWordTvService oneWordService)
+        public OneTvProgramController(IOneWordTvService oneWordService, IOneWordTvMongo oneWordTvMongo)
         {
             _oneWordTvService = oneWordService;
         }
@@ -33,25 +34,25 @@ namespace OneWordTvBackend.Controllers
 
 
         [HttpGet("GetAllPrograms")]
-        public IActionResult GetAllOneTvPrograms()
+        public async Task<IActionResult> GetAllOneTvPrograms()
         {
-            var resp = _oneWordTvService.GetAllOneWordTvPrograms();
+            var resp = await _oneWordTvService.GetAllOneWordTvPrograms();
             return Ok(resp);
         }
 
 
-        [HttpGet("GetAllProgramsByDay")]
-        public async Task<IActionResult> GetAllOneTvProgramsByDay(string model)
-        {
-            var resp = await _oneWordTvService.GetMyOneWordTvProgramsByDay(model);
-            return Ok(resp);
-        }
+        //[HttpGet("GetAllProgramsByDay")]
+        //public async Task<IActionResult> GetAllOneTvProgramsByDay(string model)
+        //{
+        //    var resp = await _oneWordTvService.GetMyOneWordTvProgramsByDay(model);
+        //    return Ok(resp);
+        //}
 
-        [HttpDelete("DeleteProgram")]
-        public async Task<IActionResult> DeleteOneTvProgram(string id)
-        {
-            var resp = await _oneWordTvService.DeleteProgram(id);
-            return Ok(resp);
-        }
+        //[HttpDelete("DeleteProgram")]
+        //public async Task<IActionResult> DeleteOneTvProgram(string id)
+        //{
+        //    var resp = await _oneWordTvService.DeleteProgram(id);
+        //    return Ok(resp);
+        //}
     }
 }

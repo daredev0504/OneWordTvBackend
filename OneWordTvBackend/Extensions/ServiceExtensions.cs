@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using OneWordTvBackend.Data;
 using OneWordTvBackend.Repository;
+using OneWordTvBackend.Repository.Implementation;
+using OneWordTvBackend.Repository.Interface;
 using OneWordTvBackend.Service;
 
 namespace OneWordTvBackend.Extensions
@@ -23,6 +25,7 @@ namespace OneWordTvBackend.Extensions
         }
 
         public static void ConfigureOneTvProgramService(this IServiceCollection services) => services.AddScoped<IOneWordTvService, OneWordTvService>();
+        public static void ConfigureOneTvProgramServiceMongo(this IServiceCollection services) => services.AddScoped<IOneWordTvMongo, OneWordTvMongo>();
         public static void ConfigureOneTvProgramRepository(this IServiceCollection services) => services.AddScoped<IOneWordProgramRepository, OneWordProgramRepository>();
 
     }

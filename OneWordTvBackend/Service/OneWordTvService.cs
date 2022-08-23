@@ -8,17 +8,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OneWordTvBackend.Repository.Interface;
 
 namespace OneWordTvBackend.Service
 {
     public class OneWordTvService : IOneWordTvService
     {
-        private readonly IOneWordProgramRepository _oneWordProgramRepository;
+        private readonly IOneWordTvMongo _oneWordProgramRepositoryMongo;
         private readonly IMapper _mapper;
 
-        public OneWordTvService(IOneWordProgramRepository oneWordProgramRepository, IMapper mapper)
+        public OneWordTvService(IOneWordTvMongo oneWordProgramRepositoryMongo, IMapper mapper)
         {
-            _oneWordProgramRepository = oneWordProgramRepository;
+            _oneWordProgramRepositoryMongo = oneWordProgramRepositoryMongo;
             _mapper = mapper;
         }
 
@@ -32,9 +33,9 @@ namespace OneWordTvBackend.Service
             oneWordDomain.Updated_at = DateTime.UtcNow;
             oneWordDomain.Created_at = DateTime.UtcNow;
 
-            var result = await _oneWordProgramRepository.Add(oneWordDomain);
+            var result = await _oneWordProgramRepositoryMongo.AddProgram(oneWordDomain);
 
-            if (result)
+            if (result != null)
             {
                 response.status = true;
                 response.message = "Added Successfully";
@@ -52,7 +53,7 @@ namespace OneWordTvBackend.Service
         {
             var response = new ResponseMessage<string>();
 
-            var getProgram = await _oneWordProgramRepository.GetById(Guid.Parse(model.Id));
+            var getProgram = await _oneWordProgramRepositoryMongo.GetProgramById(model.Id);
             if (getProgram == null)
             {
                 response.status = false;
@@ -64,9 +65,10 @@ namespace OneWordTvBackend.Service
             getProgram.Hour = model.hour;
             getProgram.Day = (DayConstants)Enum.Parse(typeof(DayConstants), model.Day, true);
 
-            if(await _oneWordProgramRepository.Modify(getProgram))
+            var result = await _oneWordProgramRepositoryMongo.UpdateProgram(getProgram.Id.ToString(), getProgram);
+            if (result.IsAcknowledged)
             {
-                response.status = true;
+                response.status = result.IsAcknowledged;
                 response.message = "Updated Successfully";
 
                 return response;
@@ -78,44 +80,59 @@ namespace OneWordTvBackend.Service
             return response;
         }
 
-        public List<OneWordProgramTvUpdateDTO> GetAllOneWordTvPrograms()
-        {
-            var allPrograms = _oneWordProgramRepository.GetAll().ToList();
-            var programsToDisplay = _mapper.Map<List<OneWordProgramTvUpdateDTO>>(allPrograms);
-
-            return programsToDisplay;
-        }
-
-        public async Task<ResponseMessage<List<OneWordProgramTvUpdateDTO>>> GetMyOneWordTvProgramsByDay(string day)
+        public async Task<ResponseMessage<List<OneWordProgramTvUpdateDTO>>> GetAllOneWordTvPrograms()
         {
             var response = new ResponseMessage<List<OneWordProgramTvUpdateDTO>>();
 
-            var programsByday = await _oneWordProgramRepository.GetMyOneWordTvProgramsByDay(day);
-            if (programsByday != null)
+            var allPrograms = await _oneWordProgramRepositoryMongo.GetAllPrograms();
+
+            var programsToDisplay = _mapper.Map<List<OneWordProgramTvUpdateDTO>>(allPrograms);
+
+            if (allPrograms != null)
             {
-                response.data = _mapper.Map<List<OneWordProgramTvUpdateDTO>>(programsByday);
                 response.status = true;
-                response.message = "Operation Successful";
+                response.message = "Records returned Successfully";
+                response.data = programsToDisplay;
+
                 return response;
             }
+
             response.status = false;
-            response.message = "An Error Occurred";
+            response.message = "An error occured";
+
             return response;
         }
 
-        public async Task<ResponseMessage<string>> DeleteProgram(string id)
-        {
-            var response = new ResponseMessage<string>();
+        //public async Task<ResponseMessage<List<OneWordProgramTvUpdateDTO>>> GetMyOneWordTvProgramsByDay(string day)
+        //{
+        //    var response = new ResponseMessage<List<OneWordProgramTvUpdateDTO>>();
 
-            if (await _oneWordProgramRepository.DeleteById(Guid.Parse(id)))
-            {
-                response.status = true;
-                response.message = "Operation Successful";
-                return response;
-            }
-            response.status = false;
-            response.message = "An Error Occurred";
-            return response;
-        }
+        //    var programsByday = await _oneWordProgramRepositoryMongo.GetMyOneWordTvProgramsByDay(day);
+        //    if (programsByday != null)
+        //    {
+        //        response.data = _mapper.Map<List<OneWordProgramTvUpdateDTO>>(programsByday);
+        //        response.status = true;
+        //        response.message = "Operation Successful";
+        //        return response;
+        //    }
+        //    response.status = false;
+        //    response.message = "An Error Occurred";
+        //    return response;
+        //}
+
+        //public async Task<ResponseMessage<string>> DeleteProgram(string id)
+        //{
+        //    var response = new ResponseMessage<string>();
+
+        //    if (await _oneWordProgramRepositoryMongo.DeleteById(Guid.Parse(id)))
+        //    {
+        //        response.status = true;
+        //        response.message = "Operation Successful";
+        //        return response;
+        //    }
+        //    response.status = false;
+        //    response.message = "An Error Occurred";
+        //    return response;
+        //}
     }
 }

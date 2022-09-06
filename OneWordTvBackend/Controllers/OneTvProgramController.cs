@@ -48,11 +48,11 @@ namespace OneWordTvBackend.Controllers
         //    return Ok(resp);
         //}
 
-        //[HttpDelete("DeleteProgram")]
-        //public async Task<IActionResult> DeleteOneTvProgram(string id)
-        //{
-        //    var resp = await _oneWordTvService.DeleteProgram(id);
-        //    return Ok(resp);
-        //}
+        [HttpDelete("DeleteProgram")]
+        public async Task<IActionResult> DeleteOneTvProgram(string id)
+        {
+            var resp = await _oneWordTvService.DeleteProgram(id);
+            return Ok(resp);
+        }
     }
 }

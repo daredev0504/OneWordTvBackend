@@ -12,7 +12,7 @@ namespace OneWordTvBackend.Repository.Interface
     public interface IOneWordTvMongo
     {
         Task<OneWordTvProgram> AddProgram(OneWordTvProgram program);
-        Task<ReplaceOneResult> UpdateProgram(string id, OneWordTvProgram room);
+        Task<ReplaceOneResult> UpdateProgram(string id, OneWordTvProgram program);
         Task<DeleteResult> DeleteProgram(string id);
         Task<OneWordTvProgram> GetProgramById(string id);
         Task<List<OneWordTvProgram>> GetAllPrograms();

@@ -63,6 +63,7 @@ namespace OneWordTvBackend.Service
             }
             getProgram.Title = model.title;
             getProgram.Hour = model.hour;
+            getProgram.Updated_at = DateTime.Now;
             getProgram.Day = (DayConstants)Enum.Parse(typeof(DayConstants), model.Day, true);
 
             var result = await _oneWordProgramRepositoryMongo.UpdateProgram(getProgram.Id.ToString(), getProgram);
@@ -120,19 +121,21 @@ namespace OneWordTvBackend.Service
         //    return response;
         //}
 
-        //public async Task<ResponseMessage<string>> DeleteProgram(string id)
-        //{
-        //    var response = new ResponseMessage<string>();
+        public async Task<ResponseMessage<string>> DeleteProgram(string id)
+        {
+            var response = new ResponseMessage<string>();
 
-        //    if (await _oneWordProgramRepositoryMongo.DeleteById(Guid.Parse(id)))
-        //    {
-        //        response.status = true;
-        //        response.message = "Operation Successful";
-        //        return response;
-        //    }
-        //    response.status = false;
-        //    response.message = "An Error Occurred";
-        //    return response;
-        //}
+            var result = await _oneWordProgramRepositoryMongo.DeleteProgram(id);
+
+            if (result.IsAcknowledged)
+            {
+                response.status = true;
+                response.message = "Operation Successful";
+                return response;
+            }
+            response.status = false;
+            response.message = "An Error Occurred";
+            return response;
+        }
     }
 }

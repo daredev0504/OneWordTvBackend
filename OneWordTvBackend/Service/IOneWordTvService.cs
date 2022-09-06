@@ -15,6 +15,6 @@ namespace OneWordTvBackend.Service
         Task<ResponseMessage<List<OneWordProgramTvUpdateDTO>>> GetAllOneWordTvPrograms();
         Task<ResponseMessage<string>> AddOneWordTvProgram(OneWordProgramTvCreateDTO model);
         Task<ResponseMessage<string>> UpdateOneWordTvProgram(OneWordProgramTvUpdateDTO model);
-        //Task<ResponseMessage<string>> DeleteProgram(string id);
+        Task<ResponseMessage<string>> DeleteProgram(string id);
     }
 }

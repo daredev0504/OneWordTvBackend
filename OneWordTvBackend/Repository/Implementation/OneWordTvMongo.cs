@@ -35,15 +35,16 @@ namespace OneWordTvBackend.Repository.Implementation
             return program;
         }
 
-        public async Task<ReplaceOneResult> UpdateProgram(Guid id, OneWordTvProgram program)
+        public async Task<ReplaceOneResult> UpdateProgram(string id, OneWordTvProgram program)
         {
-            var result = await _programs.ReplaceOneAsync(s => s.Id == id, program);
+            var result = await _programs.ReplaceOneAsync(s => s.Id == Guid.Parse(id), program);
             return result;
         }
 
-        public Task<DeleteResult> DeleteProgram(string id)
+        public async Task<DeleteResult> DeleteProgram(string id)
         {
-            throw new System.NotImplementedException();
+            var result = await _programs.DeleteOneAsync(s => s.Id == Guid.Parse(id));
+            return result;
         }
 
         public async Task<OneWordTvProgram> GetProgramById(string id)

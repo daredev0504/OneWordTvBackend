@@ -14,6 +14,7 @@ namespace OneWordTvBackend.Helpers
         public int Port { get; init; }
         public string programsCollectionName { get; init; }
         public string OneWordTvDbCollectionName { get; init; }
-        public string ConnectionString => $"mongodb+srv://tosingh5400:{Password}@damicluster.mqy1nnc.mongodb.net/?retryWrites=true&w=majority";
+        public string ConnectionString => $"mongodb+srv://tosingh5544:{Password}@dami-cluster.rnomkso.mongodb.net/?retryWrites=true&w=majority";
+     
     }
 }
